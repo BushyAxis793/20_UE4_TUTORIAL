@@ -3,7 +3,11 @@
 #include "Main.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/PlayerController.h"
+#include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
+#include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 AMain::AMain()
@@ -17,6 +21,9 @@ AMain::AMain()
 	CameraBoom->TargetArmLength = 600.f;		// Camera follows at this distance
 	CameraBoom->bUsePawnControlRotation = true; // Rotate arm based on controller
 
+	// Set size for collision capsule
+	GetCapsuleComponent()->SetCapsuleSize(48.f, 105.f);
+
 	// Create Follow Camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
@@ -27,6 +34,18 @@ AMain::AMain()
 	// Set our turn rates for input
 	BaseTurnRate = 65.f;
 	BaseLookUpRate = 65.f;
+
+	//Don't rotate when the controller rotates.
+	// Let that just affect the camera
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+
+	// Configure character movement
+	GetCharacterMovement()->bOrientRotationToMovement = true;// Character moves in the direction of input...
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 840.f, 0.0f); // ...at this rotation rate
+	GetCharacterMovement()->JumpZVelocity = 650.f;// Jump velocity
+	GetCharacterMovement()->AirControl = 0.2f;// movement in the air
 }
 
 // Called when the game starts or when spawned
