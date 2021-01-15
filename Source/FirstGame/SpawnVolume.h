@@ -18,7 +18,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawning")
 	class UBoxComponent *SpawningBox;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Spawning")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Spawning")
 	TSubclassOf<class ACritter> PawnToSpawn;
 
 protected:
@@ -31,7 +31,4 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Spawning")
 	FVector GetSpawnPoint();
-
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Spawning")
-	void SpawnOurPawn(UClass *ToSpawn, const FVector &Location);
 };
