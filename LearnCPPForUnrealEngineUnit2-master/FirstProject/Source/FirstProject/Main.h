@@ -55,7 +55,7 @@ enum class EMovementStatus : uint8
 };
 
 UENUM(BlueprintType)
-enum class EStaminaStatus :uint8
+enum class EStaminaStatus : uint8
 {
 	ESS_Normal UMETA(DisplayName = "Normal"),
 	ESS_BelowMinimum UMETA(DisplayName = "BelowMinimum"),
@@ -75,6 +75,9 @@ public:
 	// Sets default values for this character's properties
 	AMain();
 
+	UPROPERTY(EditDefaultsOnly, Category = "SavedData")
+	TSubclassOf<class AItemStorage> WeaponStorage;
+
 	FCharacterStats CharacterStats;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
@@ -86,16 +89,16 @@ public:
 	FVector CombatTargetLocation;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Controller")
-	class AMainPlayerController* MainPlayerController;
+	class AMainPlayerController *MainPlayerController;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
-	class UParticleSystem* HitParticles;
+	class UParticleSystem *HitParticles;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
-	class USoundCue* HitSound;
+	class USoundCue *HitSound;
 
 	TArray<FVector> PickupLocations;
-	
+
 	UFUNCTION(BlueprintCallable)
 	void ShowPickupLocations();
 
@@ -120,9 +123,9 @@ public:
 	void SetInterpToEnemy(bool Interp);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
-	class AEnemy* CombatTarget;
+	class AEnemy *CombatTarget;
 
-	FORCEINLINE void SetCombatTarget(AEnemy* Target) { CombatTarget = Target; }
+	FORCEINLINE void SetCombatTarget(AEnemy *Target) { CombatTarget = Target; }
 
 	FRotator GetLookAtRotationYaw(FVector Target);
 
@@ -145,11 +148,11 @@ public:
 
 	/** Camera boom positioning the camera behind the player */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* CameraBoom;
+	class USpringArmComponent *CameraBoom;
 
 	/** Follow Camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* FollowCamera;
+	class UCameraComponent *FollowCamera;
 
 	/** Base turn rates to scale turning functions for the camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
@@ -180,7 +183,7 @@ public:
 
 	void DecrementHealth(float Amount);
 
-	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) override;
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const &DamageEvent, class AController *EventInstigator, AActor *DamageCauser) override;
 
 	UFUNCTION(BlueprintCallable)
 	void IncrementCoins(int32 Amount);
@@ -196,12 +199,12 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
 
 	/** Called for forwards/backwards input */
 	void MoveForward(float Value);
@@ -238,22 +241,22 @@ public:
 
 	bool AllowInput(float Value);
 
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	FORCEINLINE class USpringArmComponent *GetCameraBoom() const { return CameraBoom; }
+	FORCEINLINE class UCameraComponent *GetFollowCamera() const { return FollowCamera; }
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Items)
-	class AWeapon* EquippedWeapon;
+	class AWeapon *EquippedWeapon;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Items)
-	class AItem* ActiveOverlappingItem;
+	class AItem *ActiveOverlappingItem;
 
-	void SetEquippedWeapon(AWeapon* WeaponToSet);
+	void SetEquippedWeapon(AWeapon *WeaponToSet);
 
 	UFUNCTION(BlueprintCallable)
-	AWeapon* GetEquippedWeapon() { return EquippedWeapon; }
+	AWeapon *GetEquippedWeapon() { return EquippedWeapon; }
 
-	FORCEINLINE void SetActiveOverlappingItem(AItem* Item) { ActiveOverlappingItem = Item; }
-	
+	FORCEINLINE void SetActiveOverlappingItem(AItem *Item) { ActiveOverlappingItem = Item; }
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Anims")
 	bool bAttacking;
 
@@ -263,7 +266,7 @@ public:
 	void AttackEnd();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Anims")
-	class UAnimMontage* CombatMontage;
+	class UAnimMontage *CombatMontage;
 
 	UFUNCTION(BlueprintCallable)
 	void PlaySwingSound();
